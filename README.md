@@ -17,10 +17,10 @@ A monthly payroll summary showing total hours worked, gross salary, deductions, 
 Team Details
 Member	Contribution
 
-**Psalter**	Developed the login system and menu navigation for employee and payroll staff. Handled testing, debugging, and validation of payroll outputs using the provided attendance and employee data files.
+**Psalter Castillo**	Developed the login system and menu navigation for employee and payroll staff. Handled testing, debugging, and validation of payroll outputs using the provided attendance and employee data files.
 
-**Precious**	Implemented the employee details viewing feature using the employee CSV file.
+**Precious Julianne Baybayan**	Implemented the employee details viewing feature using the employee CSV file.
 
-**Sofia**	Developed the attendance processing and hours worked calculation including working hour limits (8:00 AM – 5:00 PM) and lunch break deduction.
+**Sofia Gwenhwyfar Piñeda**	Developed the attendance processing and hours worked calculation including working hour limits (8:00 AM – 5:00 PM) and lunch break deduction.
 
-**Justlyn**	Implemented payroll computation including gross salary, SSS, PhilHealth, Pag-IBIG, tax, and net salary calculations.
+**Justlyn Nicole Ponteres**	Implemented payroll computation including gross salary, SSS, PhilHealth, Pag-IBIG, tax, and net salary calculations.
