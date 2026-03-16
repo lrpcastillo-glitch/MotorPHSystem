@@ -4,6 +4,18 @@
  */
 package motorphpayrollsystem;
 
+/*
+ MotorPH Payroll System
+ This program allows employees to view their details
+ and payroll staff to compute payroll based on attendance.
+
+ Features:
+ - Employee login
+ - Payroll staff login
+ - Payroll calculation per cutoff
+ - Government deductions (SSS, PhilHealth, PagIBIG, Tax)
+*/
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -28,7 +40,8 @@ public class MotorPHPayrollSystem {
 
             System.out.print("Enter password: ");
             String password = sc.nextLine();
-
+            
+            // Validate login credentials for employee or payroll staff
             if ((username.equals("employee") || username.equals("payroll_staff"))
                && password.equals("12345")) {
 
@@ -43,7 +56,8 @@ public class MotorPHPayrollSystem {
             if (username.equals("employee")) {
                 
                 int option;
-
+                
+                //Employee menu allows staff to view their personal details
                 do {
                     System.out.println("\n===== EMPLOYEE MENU =====");
                     System.out.println("1. Check Employee Details");
@@ -72,7 +86,9 @@ public class MotorPHPayrollSystem {
             } else {
 
                 int option;
-
+                
+                //Payroll staff menu allows payroll processing
+                //for one employee or all employees for a selected month
                 do {
                     System.out.println("\n===== PAYROLL STAFF MENU =====");
                     System.out.println("1. One Employee");
@@ -115,7 +131,7 @@ public class MotorPHPayrollSystem {
     }
     
     static int selectMonth(Scanner sc) {
-
+        
             System.out.println("\nSelect Month:");
             System.out.println("1. June");
             System.out.println("2. July");
@@ -128,13 +144,14 @@ public class MotorPHPayrollSystem {
 
         int monthChoice = Integer.parseInt(sc.nextLine());
 
+        //Convert menu selection to actual month number
         return monthChoice + 5;
 }
 
     
     
     
-    // EMPLOYEE VIEW
+    // Reads employee.csv and displays employee details
     static void displayEmployee(String empNo) {
 
          boolean found = false;
@@ -177,7 +194,9 @@ public class MotorPHPayrollSystem {
             System.out.println("Employee number does not exist.");
         }
     }
-    
+
+    //Processes payroll for a single employee
+    //Calculates hours worked, gross salary, deductions, and net salary
     static void processPayroll(String empNo, int month) {
         
         String[] empData = getEmployeeData(empNo);
@@ -241,7 +260,9 @@ public class MotorPHPayrollSystem {
         System.out.println("---------------------------");
 }
 
-    // PRINT PAYROLL FOR ALL EMPLOYEES
+    
+    // Processes payroll for every employee in the employee.csv file
+    // Reuses the parocessPayroll() method
     static void processAllPayroll(int month) {
 
     try (BufferedReader br = new BufferedReader(new FileReader(EMP_FILE))) {
@@ -293,7 +314,8 @@ public class MotorPHPayrollSystem {
 }
     
 
-    // CALCULATE HOURS FROM ATTENDANCE FILE
+    // Calculate total working hours from attendance file
+    // Applies grace period, work limits, and lunch break deduction
     static double calculateHours(String empNo, int cutoff, int month) {
 
         double totalHours = 0;
@@ -342,7 +364,7 @@ public class MotorPHPayrollSystem {
             // Compute worked hours
             double hours = Duration.between(timeIn, timeOut).toMinutes() / 60.0;
 
-            // Subtract 1 hour lunch
+            // Deduct 1 hour for lunch break
             hours -= 1;
             if (hours < 0) hours = 0;
 
@@ -356,7 +378,8 @@ public class MotorPHPayrollSystem {
     return totalHours;
 
     }     
-    
+
+    // Calculate SSS contribution based on salary bracket
     static double calculateSSS(double salary) {
 
     if (salary <= 3250) return 135.00;
@@ -405,7 +428,8 @@ public class MotorPHPayrollSystem {
         else if (salary <= 24750) return 1102.50;
         else return 1125.00;
     }
-    
+
+    // Calculate PhilHealth contribution (3% premium split between employer and employee)
     static double calculatePhilHealth(double monthlySalary) {
 
     double premium = monthlySalary * 0.03;
@@ -421,6 +445,8 @@ public class MotorPHPayrollSystem {
     return employeeShare;
     
     }
+
+    // Calculate Pag-IBIG contribution with maximum cap of 100
     static double calculatePagibig(double monthlySalary) {
 
     double contribution;
@@ -439,6 +465,8 @@ public class MotorPHPayrollSystem {
         return contribution;
     
     }
+
+    // Calculate withholding tax using TRAIN Law tax brackets
     static double calculateTax(double taxableIncome) {
 
     double tax;
